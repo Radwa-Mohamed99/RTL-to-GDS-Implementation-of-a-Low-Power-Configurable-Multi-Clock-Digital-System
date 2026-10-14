@@ -1,0 +1,58 @@
+# ModelSim / Questa generated databases
+**/work/
+*.wlf
+*.cr.mti
+*.mpf_new
+transcript
+
+# Keep all Verilog, testbenches, VCD files,
+# run.do and wave.do scripts tracked.
+
+# Exclude SpyGlass-generated VCD
+spyglass/Lint/cdc/cdc_verify/spyglass_reports/clock-reset/adv_cdc_init_seq.vcd
+
+# Exclude large VCD files
+/SYS/SYS_TOP/RTL/TB/SYS_TB.vcd
+/SYS/SYS_TOP_DFT/GLS/SYS_DFT_TB_FUNC.vcd
+
+# SpyGlass
+spyglass/Lint/
+spyglass/*.log
+
+# Formality
+**/FM_WORK/
+*.lck
+
+# Backups / old
+*~
+*.old
+*.log1
+*.cmd1
+
+# Hidden temp files from Innovus
+PnR/PnR/.rid*
+PnR/PnR/.routing_guide.rgf
+PnR/PnR/.interactive.constr.sdc
+PnR/PnR/.qrc.leflist
+
+# Duplicates
+PnR/DFT/
+PnR/std_cells/
+
+# Tool logs
+command.log
+filenames.log
+
+# Licensed libraries (TSMC)
+std_cells/
+
+# Big files
+*.fsdb
+*.gz
+
+# Formality extras
+**/formality_svf/
+*.svf
+
+# Logs
+pt/pw.log

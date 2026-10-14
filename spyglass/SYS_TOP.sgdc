@@ -1,0 +1,130 @@
+########################################################################
+# SYS_TOP.sgdc
+########################################################################
+
+current_design SYS_TOP
+
+# ============================================================
+# SDC
+# ============================================================
+
+sdc_data -file /home/ICer/Labs/System/spyglass/SYS_TOP.sdc
+
+
+########################################################################
+# 1. GENERATED CLOCK DEFINITIONS
+########################################################################
+
+#clock -name REF_CLK  -domain D_REF
+#clock -name UART_CLK -domain D_UART
+
+# ============================================================
+# ALU_CLK
+# REF_CLK -> CLK_GATE -> ALU_CLK
+# Same domain as REF_CLK
+# ============================================================
+
+clock -name SYS_TOP.CLK_GATE_INST.GATED_CLK \
+      -period 20 \
+      -waveform {0 10} \
+      -domain d0
+
+
+# ============================================================
+# RX_CLK
+# UART_CLK -> RX_CLK_DIV -> RX_CLK
+# Same domain as UART_CLK
+# ============================================================
+
+clock -name SYS_TOP.RX_CLK_DIV_INST.O_div_clk \
+      -period 271.297 \
+      -waveform {0 135.648} \
+      -domain d1
+
+
+# ============================================================
+# TX_CLK
+# UART_CLK -> TX_CLK_DIV -> TX_CLK
+# divide_by 32
+# Same domain as UART_CLK
+# ============================================================
+
+clock -name SYS_TOP.TX_CLK_DIV_INST.O_div_clk \
+      -period 8681.504 \
+      -waveform {0 4340.752} \
+      -domain d1
+
+
+########################################################################
+# 2. RESET
+########################################################################
+
+reset -name RST \
+      -value 0 \
+      -async
+
+input -name RST -clock REF_CLK
+input -name RST -clock UART_CLK
+
+
+########################################################################
+# 3. RESET SYNCHRONIZERS
+########################################################################
+
+reset_synchronizer \
+    -name RST_SYNC_1 \
+    -reset RST \
+    -clock REF_CLK \
+    -value 0
+
+reset_synchronizer \
+    -name RST_SYNC_2 \
+    -reset RST \
+    -clock UART_CLK \
+    -value 0
+
+
+########################################################################
+# 4. CDC SYNCHRONIZER CELLS
+########################################################################
+
+sync_cell -name DF_SYNC
+
+sync_cell -name DATA_SYNC
+
+
+########################################################################
+# 5. INPUT CLOCK DOMAIN
+########################################################################
+
+input -name UART_RX_IN \
+      -clock UART_CLK
+
+
+########################################################################
+# 6. OUTPUT CLOCK DOMAINS
+########################################################################
+
+output -name UART_TX_OUT \
+       -clock UART_CLK
+
+output -name parity_error \
+       -clock  UART_CLK
+
+output -name framing_error \
+       -clock  UART_CLK
+
+########################################################################
+# 7.  Quasi static signals
+########################################################################
+
+quasi_static -name SYS_TOP.REG_FILE_INST.Reg_2
+quasi_static -name SYS_TOP.REG_FILE_INST.Reg_3
+
+cdc_attribute -unrelated {SYS_TOP.ASYNC_FIFO_INST.U_FIFO_RD.gray_rd_ptr[3:0] SYS_TOP.ASYNC_FIFO_INST.U0_R2W.SYNC_OUT[0][3:0]}
+
+cdc_attribute -unrelated {SYS_TOP.ASYNC_FIFO_INST.U_FIFO_WR.wptr_gray[3:0] SYS_TOP.ASYNC_FIFO_INST.U0_W2R.SYNC_OUT[0][3:0]}
+
+########################################################################
+# END OF SGDC
+########################################################################

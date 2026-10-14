@@ -1,0 +1,77 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : SYS_TOP_DFT
+Version: O-2018.06-SP1
+Date   : Fri Oct  9 07:13:49 2026
+****************************************
+
+Operating Conditions: scmetro_tsmc_cl013g_rvt_ff_1p32v_m40c   Library: scmetro_tsmc_cl013g_rvt_ff_1p32v_m40c
+Wire Load Model Mode: top
+
+  Startpoint: ALU_INST/ALU_OUT_reg[9]
+              (rising edge-triggered flip-flop clocked by ALU_CLK)
+  Endpoint: ALU_INST/ALU_OUT_reg[10]
+            (rising edge-triggered flip-flop clocked by ALU_CLK)
+  Path Group: ALU_CLK
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock ALU_CLK (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  ALU_INST/ALU_OUT_reg[9]/CK (SDFFRQX2M)                  0.00       0.00 r
+  ALU_INST/ALU_OUT_reg[9]/Q (SDFFRQX2M)                   0.35       0.35 r
+  ALU_INST/ALU_OUT_reg[10]/SI (SDFFRQX2M)                 0.00       0.35 r
+  data arrival time                                                  0.35
+
+  clock ALU_CLK (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.10       0.10
+  ALU_INST/ALU_OUT_reg[10]/CK (SDFFRQX2M)                 0.00       0.10 r
+  library hold time                                      -0.18      -0.08
+  data required time                                                -0.08
+  --------------------------------------------------------------------------
+  data required time                                                -0.08
+  data arrival time                                                 -0.35
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.44
+
+
+  Startpoint: ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[0][0]
+              (rising edge-triggered flip-flop clocked by SCAN_CLK)
+  Endpoint: ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[1][0]
+            (rising edge-triggered flip-flop clocked by SCAN_CLK)
+  Path Group: SCAN_CLK
+  Path Type: min
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock SCAN_CLK (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[0][0]/CK (SDFFRQX2M)
+                                                          0.00       0.00 r
+  ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[0][0]/Q (SDFFRQX2M)
+                                                          0.35       0.35 r
+  ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[1][0]/D (SDFFRQX2M)
+                                                          0.00       0.35 r
+  data arrival time                                                  0.35
+
+  clock SCAN_CLK (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.10       0.10
+  ASYNC_FIFO_INST/U0_R2W/SYNC_OUT_reg[1][0]/CK (SDFFRQX2M)
+                                                          0.00       0.10 r
+  library hold time                                      -0.16      -0.06
+  data required time                                                -0.06
+  --------------------------------------------------------------------------
+  data required time                                                -0.06
+  data arrival time                                                 -0.35
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.42
+
+
+1

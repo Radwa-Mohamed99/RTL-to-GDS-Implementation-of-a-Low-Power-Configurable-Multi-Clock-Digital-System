@@ -1,0 +1,55 @@
+Info:  Net Ref:/WORK/SYS_TOP_DFT/SO[3] is undriven.
+Info:  Net Ref:/WORK/SYS_TOP_DFT/SO[2] is undriven.
+Info:  Net Ref:/WORK/SYS_TOP_DFT/SO[1] is undriven.
+Info:  Net Ref:/WORK/SYS_TOP_DFT/SO[0] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[7] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[6] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[5] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[4] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[3] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[2] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[1] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/remainder[0] is undriven.
+Info:  Net Imp:/WORK/ALU_DW_div_uns_0/divide_by_0 is undriven.
+Info:  Net Imp:/WORK/ALU_DW01_sub_0/CO is undriven.
+Info:  Net Imp:/WORK/ALU_DW01_add_0/CO is undriven.
+Info:  Net Imp:/WORK/ALU_DW01_add_1/CO is undriven.
+Info:  guide_replace 22 (Line: 123)  Rejected transformation 22 because design 'uart_rx_fsm' cannot be found.
+Info:  SVF Operation 22 (Line: 123) - replace.  Status: rejected
+
+Info:  guide_replace 23 (Line: 139)  Rejected transformation 23 because design 'uart_rx_fsm' cannot be found.
+Info:  SVF Operation 23 (Line: 139) - replace.  Status: rejected
+
+Info:  guide_transformation 33 (Line: 201)  Rejected transformation 33 because design 'uart_rx_fsm' cannot be found.
+Info:  guide_transformation 33 (Line: 201) Retrying with unread processing enabled.
+Info:  guide_transformation 33 (Line: 201)  Rejected transformation 33 because design 'uart_rx_fsm' cannot be found.
+Info:  SVF Operation 33 (Line: 201) - transformation_share.  Status: rejected
+
+Info:  guide_transformation 34 (Line: 223)  Rejected transformation 34 because design 'uart_rx_fsm' cannot be found.
+Info:  guide_transformation 34 (Line: 223) Retrying with unread processing enabled.
+Info:  guide_transformation 34 (Line: 223)  Rejected transformation 34 because design 'uart_rx_fsm' cannot be found.
+Info:  SVF Operation 34 (Line: 223) - transformation_share.  Status: rejected
+
+Info:  guide_transformation 40 (Line: 299)  Rejected transformation 40 because design 'edge_bit_counter' cannot be found.
+Info:  guide_transformation 40 (Line: 299) Retrying with unread processing enabled.
+Info:  guide_transformation 40 (Line: 299)  Rejected transformation 40 because design 'edge_bit_counter' cannot be found.
+Info:  SVF Operation 40 (Line: 299) - transformation_share.  Status: rejected
+
+Info:  guide_transformation 49 (Line: 398)  Rejected transformation 49 because design 'ALU' cannot be found.
+Info:  guide_transformation 49 (Line: 398) Retrying with unread processing enabled.
+Info:  guide_transformation 49 (Line: 398)  Rejected transformation 49 because design 'ALU' cannot be found.
+Info:  SVF Operation 49 (Line: 398) - transformation_share.  Status: rejected
+
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "RX_CLK_DIV_INST/U13" in design 'SYS_TOP_DFT'.
+Info:  SVF Operation 58 (Line: 503) - uniquify.  Status: rejected
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "TX_CLK_DIV_INST/U13" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "RST_SYNC_2_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "RST_SYNC_1_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "RST_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "TX_CLK_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "RX_CLK_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "UART_CLK_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 58 (Line: 503)  Cannot find object "REF_CLK_MUX/U1" in design 'SYS_TOP_DFT'.
+Info:  guide_uniquify 66 (Line: 556)  Cannot find object "ALU_INST/dp_cluster_0/mult_47" in design 'SYS_TOP_DFT'.
+Info:  Pre-verification of Ref:/WORK/ALU_DATA_WIDTH8_ALU_FUN_WIDTH4/div_50 SUCCEEDED.
+Info:  Pre-verification of Ref:/WORK/ALU_DATA_WIDTH8_ALU_FUN_WIDTH4/mult_47 SUCCEEDED.

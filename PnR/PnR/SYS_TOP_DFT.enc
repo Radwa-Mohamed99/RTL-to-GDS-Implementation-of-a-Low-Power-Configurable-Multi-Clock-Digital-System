@@ -1,0 +1,8 @@
+################################################
+#                                              #
+# Silicon Perspective, A Cadence Company       #
+# FirstEncounter Design Restore script         #
+#    for design session: /home/ahesham/Labs/PnR/PnR/SYS_TOP_DFT.enc                     
+#                                              #
+################################################
+restoreDesign /home/ahesham/Labs/PnR/PnR/SYS_TOP_DFT.enc.dat SYS_TOP_DFT

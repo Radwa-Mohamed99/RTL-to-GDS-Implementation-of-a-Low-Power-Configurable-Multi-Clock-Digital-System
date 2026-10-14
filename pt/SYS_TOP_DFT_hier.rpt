@@ -1,0 +1,168 @@
+****************************************
+Report : Time Based Power
+	-hierarchy
+Design : SYS_TOP_DFT
+Version: O-2018.06-SP1
+Date   : Sun Oct 11 01:11:21 2026
+****************************************
+
+
+
+                                      Int      Switch   Leak      Total
+Hierarchy                             Power    Power    Power     Power    %
+--------------------------------------------------------------------------------
+SYS_TOP_DFT                           3.26e-04 1.17e-04 7.33e-06  4.50e-04 100.0
+  RX_CLK_MUX (MUX2X1_3)               8.11e-08 3.88e-08 5.33e-09  1.25e-07   0.0
+  UART_INST (UART_test_1)             2.36e-06 2.13e-07 8.86e-07  3.46e-06   0.8
+    U0_UART_RX (UART_RX_test_1)       2.33e-06 2.10e-07 6.36e-07  3.17e-06   0.7
+      stop_check_inst (stop_check)       0.000    0.000 1.96e-09  1.96e-09   0.0
+      start_check_inst (start_check)     0.000    0.000 1.00e-09  1.00e-09   0.0
+      data_sampling_inst (data_sampling_test_1)
+                                      3.06e-07 3.73e-08 1.69e-07  5.12e-07   0.1
+      uart_rx_fsm_inst (uart_rx_fsm_test_1)
+                                      3.69e-07 2.61e-08 1.32e-07  5.26e-07   0.1
+      parity_check_inst (parity_check)
+                                      3.21e-09 9.91e-10 3.90e-08  4.32e-08   0.0
+      edge_bit_counter_inst (edge_bit_counter_test_1)
+                                      1.07e-06 1.42e-07 2.00e-07  1.41e-06   0.3
+      deserializer_inst (deserializer_test_1)
+                                      5.18e-07 4.47e-09 8.51e-08  6.08e-07   0.1
+    U0_UART_TX (UART_TX_test_1)       3.29e-08 2.33e-09 2.50e-07  2.85e-07   0.1
+      fsm_inst (FSM_test_1)           6.86e-09 5.35e-10 5.40e-08  6.13e-08   0.0
+      serializer_inst (serializer_test_1)
+                                      2.36e-08 8.91e-10 1.38e-07  1.63e-07   0.0
+      parity_calc_inst (Parity_Calc_test_1)
+                                      2.17e-09 4.02e-11 5.00e-08  5.22e-08   0.0
+      tx_mux_inst (TX_MUX)            2.35e-10 8.11e-10 6.25e-09  7.30e-09   0.0
+  CLK_GATE_DFT_INST (CLK_GATE_DFT)    3.21e-06 1.02e-08 1.29e-08  3.24e-06   0.7
+  ASYNC_FIFO_INST (ASYNC_FIFO_test_1) 6.78e-05 1.01e-09 1.17e-06  6.90e-05  15.3
+    U_FIFO_RD (FIFO_RD_test_1)        1.60e-08 1.63e-10 1.19e-07  1.35e-07   0.0
+    U_FIFO_MEM (FIFO_MEM_CNTRL_test_1)
+                                      5.42e-05 5.36e-10 7.81e-07  5.50e-05  12.2
+    U0_W2R (DF_SYNC_test_1)           1.57e-08 1.13e-11 6.98e-08  8.55e-08   0.0
+    U0_R2W (DF_SYNC_test_0)           6.78e-06 1.15e-11 6.97e-08  6.85e-06   1.5
+    U_FIFO_WR (FIFO_WR_test_1)        6.79e-06 1.86e-10 1.24e-07  6.91e-06   1.5
+  RST_SYNC_1_MUX (MUX2X1_6)           1.01e-11 9.46e-11 1.09e-08  1.10e-08   0.0
+  TX_CLK_DIV_INST (ClkDiv_test_1)     1.23e-06 1.41e-07 2.65e-07  1.63e-06   0.4
+    add_62 (ClkDiv_0_DW01_inc_0)      6.53e-08 2.53e-08 3.39e-08  1.25e-07   0.0
+  RST_MUX (MUX2X1_0)                  1.29e-11 6.59e-12 1.01e-08  1.01e-08   0.0
+  UART_CLK_MUX (MUX2X1_4)             8.24e-08 5.12e-08 5.34e-09  1.39e-07   0.0
+  RST_SYNC_2_MUX (MUX2X1_5)           4.28e-12 1.37e-11 6.51e-09  6.53e-09   0.0
+  RST_SYNC_1_INST (RST_SYNC_test_0)   1.70e-06 1.74e-12 1.65e-08  1.72e-06   0.4
+  ALU_INST (ALU_test_1)               2.79e-07 1.27e-10 1.68e-06  1.96e-06   0.4
+    div_50 (ALU_DW_div_uns_0)         3.44e-10 6.69e-11 4.69e-07  4.69e-07   0.1
+    add_39 (ALU_DW01_add_0)           1.95e-11 3.47e-12 7.31e-08  7.31e-08   0.0
+    sub_43 (ALU_DW01_sub_0)           2.54e-11 1.90e-12 8.23e-08  8.23e-08   0.0
+    mult_47 (ALU_DW02_mult_0)         3.25e-11 1.65e-11 7.47e-07  7.47e-07   0.2
+      FS_1 (ALU_DW01_add_1)           2.28e-12 2.44e-12 8.57e-08  8.57e-08   0.0
+  REG_FILE_INST (Reg_File_test_1)     1.16e-04 1.82e-09 1.64e-06  1.18e-04  26.3
+  TX_CLK_MUX (MUX2X1_2)               2.53e-09 1.21e-09 5.33e-09  9.06e-09   0.0
+  PULSE_GEN_INST (PULSE_GEN_test_1)   4.33e-09 2.61e-11 1.88e-08  2.32e-08   0.0
+  DATA_SYNC_INST (DATA_SYNC_test_1)   1.02e-05 8.95e-10 1.23e-07  1.03e-05   2.3
+  RST_SYNC_2_INST (RST_SYNC_test_1)   1.26e-07 1.65e-12 1.65e-08  1.42e-07   0.0
+  PRESCALE_MUX_INST (CLK_DIV_MUX)        0.000    0.000 2.84e-08  2.84e-08   0.0
+  RX_CLK_DIV_INST (ClkDiv_test_0)     6.46e-07 1.74e-08 2.84e-07  9.47e-07   0.2
+    add_62 (ClkDiv_1_DW01_inc_0)         0.000    0.000 3.50e-08  3.50e-08   0.0
+  REF_CLK_MUX (MUX2X1_1)              2.00e-06 1.07e-06 6.97e-09  3.08e-06   0.7
+  SYS_CTRL_INST (SYS_CTRL_test_1)     2.73e-05 2.49e-09 4.40e-07  2.78e-05   6.2
+
+
+                                      Peak     Peak            Glitch   X-tran
+Hierarchy                             Power    Time            Power    Power
+--------------------------------------------------------------------------------
+SYS_TOP_DFT                              0.190 2210580.753-2210580.754
+                                                                  0.000 2.32e-08
+  RX_CLK_MUX (MUX2X1_3)               8.16e-05 8952.961-8952.962
+                                                                  0.000    0.000
+  UART_INST (UART_test_1)             3.16e-02 5200247.416-5200247.417
+                                                                  0.000    0.000
+    U0_UART_RX (UART_RX_test_1)       3.16e-02 5200247.416-5200247.417
+                                                                  0.000    0.000
+      stop_check_inst (stop_check)    2.02e-09   0.000-0.001      0.000    0.000
+      start_check_inst (start_check)  1.60e-09 66327.428-66327.429
+                                                                  0.000    0.000
+      data_sampling_inst (data_sampling_test_1)
+                                      5.03e-03 244280.052-244280.053
+                                                                  0.000    0.000
+      uart_rx_fsm_inst (uart_rx_fsm_test_1)
+                                      6.72e-03 131024.927-131024.928
+                                                                  0.000    0.000
+      parity_check_inst (parity_check)
+                                      3.14e-04 1360014.064-1360014.065
+                                                                  0.000    0.000
+      edge_bit_counter_inst (edge_bit_counter_test_1)
+                                      1.59e-02 5530247.271-5530247.272
+                                                                  0.000    0.000
+      deserializer_inst (deserializer_test_1)
+                                      1.30e-02 162085.242-162085.243
+                                                                  0.000    0.000
+    U0_UART_TX (UART_TX_test_1)       1.96e-02 5347682.717-5347682.718
+                                                                  0.000    0.000
+      fsm_inst (FSM_test_1)           4.96e-03 3199224.178-3199224.179
+                                                                  0.000    0.000
+      serializer_inst (serializer_test_1)
+                                      1.51e-02 4392812.317-4392812.318
+                                                                  0.000    0.000
+      parity_calc_inst (Parity_Calc_test_1)
+                                      1.67e-03 5352022.898-5352022.899
+                                                                  0.000    0.000
+      tx_mux_inst (TX_MUX)            2.38e-04 5352023.881-5352023.882
+                                                                  0.000    0.000
+  CLK_GATE_DFT_INST (CLK_GATE_DFT)    4.18e-03 5227051.758-5227051.759
+                                                                  0.000 2.08e-09
+  ASYNC_FIFO_INST (ASYNC_FIFO_test_1) 4.72e-02 5227060.745-5227060.746
+                                                                  0.000    0.000
+    U_FIFO_RD (FIFO_RD_test_1)        1.08e-02 4731357.277-4731357.278
+                                                                  0.000    0.000
+    U_FIFO_MEM (FIFO_MEM_CNTRL_test_1)
+                                      4.72e-02 5227060.745-5227060.746
+                                                                  0.000    0.000
+    U0_W2R (DF_SYNC_test_1)           8.61e-03 5234834.397-5234834.398
+                                                                  0.000    0.000
+    U0_R2W (DF_SYNC_test_0)           8.19e-03 4414540.729-4414540.730
+                                                                  0.000    0.000
+    U_FIFO_WR (FIFO_WR_test_1)        1.08e-02 4697560.729-4697560.730
+                                                                  0.000    0.000
+  RST_SYNC_1_MUX (MUX2X1_6)           5.18e-04 8682.824-8682.825
+                                                                  0.000    0.000
+  TX_CLK_DIV_INST (ClkDiv_test_1)     1.05e-02 34995.181-34995.182
+                                                                  0.000    0.000
+    add_62 (ClkDiv_0_DW01_inc_0)      3.07e-04 30791.012-30791.013
+                                                                  0.000    0.000
+  RST_MUX (MUX2X1_0)                  9.77e-05 8682.253-8682.254
+                                                                  0.000    0.000
+  UART_CLK_MUX (MUX2X1_4)             9.02e-05 271.320-271.321    0.000    0.000
+  RST_SYNC_2_MUX (MUX2X1_5)           1.35e-04 8682.828-8682.829
+                                                                  0.000    0.000
+  RST_SYNC_1_INST (RST_SYNC_test_0)   2.49e-03 8700.738-8700.739
+                                                                  0.000    0.000
+  ALU_INST (ALU_test_1)               1.84e-02 5227020.791-5227020.792
+                                                                  0.000 1.11e-08
+    div_50 (ALU_DW_div_uns_0)         1.05e-03 5122871.774-5122871.775
+                                                                  0.000    0.000
+    add_39 (ALU_DW01_add_0)           1.44e-04 5122871.314-5122871.315
+                                                                  0.000    0.000
+    sub_43 (ALU_DW01_sub_0)           1.86e-04 5122871.417-5122871.418
+                                                                  0.000    0.000
+    mult_47 (ALU_DW02_mult_0)         3.12e-04 5122871.701-5122871.702
+                                                                  0.000    0.000
+      FS_1 (ALU_DW01_add_1)           1.24e-04 5122872.157-5122872.158
+                                                                  0.000    0.000
+  REG_FILE_INST (Reg_File_test_1)        0.106 2258240.753-2258240.754
+                                                                  0.000    0.000
+  TX_CLK_MUX (MUX2X1_2)               8.62e-05 35130.585-35130.586
+                                                                  0.000    0.000
+  PULSE_GEN_INST (PULSE_GEN_test_1)   3.15e-03 603712.819-603712.820
+                                                                  0.000    0.000
+  DATA_SYNC_INST (DATA_SYNC_test_1)   1.30e-02 3091560.738-3091560.739
+                                                                  0.000    0.000
+  RST_SYNC_2_INST (RST_SYNC_test_1)   2.49e-03 8953.260-8953.261
+                                                                  0.000    0.000
+  PRESCALE_MUX_INST (CLK_DIV_MUX)     2.84e-08   0.000-0.001      0.000    0.000
+  RX_CLK_DIV_INST (ClkDiv_test_0)     7.73e-03 26585.811-26585.812
+                                                                  0.000    0.000
+    add_62 (ClkDiv_1_DW01_inc_0)      3.50e-08   0.000-0.001      0.000    0.000
+  REF_CLK_MUX (MUX2X1_1)              1.64e-04  10.050-10.051     0.000    0.000
+  SYS_CTRL_INST (SYS_CTRL_test_1)     2.72e-02 4376360.749-4376360.750
+                                                                  0.000    0.000
+1
