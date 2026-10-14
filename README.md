@@ -136,16 +136,27 @@ Selected SpyGlass findings were waived where the behavior was intentional or req
 
 **Note:** Waivers document accepted or reviewed findings; they do not, by themselves, prove that a crossing is safe. Each waiver should be checked against the RTL, clock relationships, constraints, and SpyGlass reports.
 
-### 4. Verification Evidence
+### 4.CDC Verification Results
 
-The following screenshots document the CDC, RDC, and RTL lint analysis results:
+**CDC Verification**
+![CDC Verification](Result/cdc_verify.png)
 
-- **CDC Verification:** `Result/cdc_verify.png`
-- **CDC Structural Verification:** `Result/cdc_verify_struct.png`
-- **CDC Abstract Results:** `Result/cdc_abstruct.png`
-- **CDC Setup Checks:** `Result/cdc_setup_check.png`
-- **RDC Structural Verification:** `Result/rdc_verify_struct.png`
-- **RTL Lint Results:** `Result/lint_rtl.png`
+**CDC Structural Verification**
+![CDC Structural Verification](Result/cdc_verify_struct.png)
+
+**CDC Abstract Results**
+![CDC Abstract Results](Result/cdc_abstruct.png)
+
+**CDC Setup Checks**
+![CDC Setup Checks](Result/cdc_setup_check.png)
+
+### RDC Verification Results
+
+![RDC Structural Verification](Result/rdc_verify_struct.png)
+
+### RTL Lint Results
+
+![RTL Lint Results](Result/lint_rtl.png)
 
 ### Conclusion
 
