@@ -677,5 +677,5 @@ The register file and asynchronous FIFO were the largest reported contributors t
 | Lint and CDC | Synopsys SpyGlass |
 | Synthesis and Scan Insertion | Synopsys Design Compiler / DFT Flow |
 | Equivalence Checking | Synopsys Formality |
-| Placement, CTS, and Routing | Cadence Encounter / NanoRoute |
+| Placement, CTS, and Routing | Cadence Encounter |
 | Time-Based Power Estimation | Synopsys PrimeTime |
