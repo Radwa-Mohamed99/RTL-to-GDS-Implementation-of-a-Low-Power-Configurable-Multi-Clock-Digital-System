@@ -179,3 +179,47 @@ The following waveform captures illustrate selected simulation signals and testb
 ![Waveform 3](Result/wave3.png)
 
 ![Waveform 4](Result/wave4.png)
+
+## Logic Synthesis
+
+Logic synthesis was performed using **Synopsys Design Compiler** to transform the RTL description of `SYS_TOP` into a technology-mapped gate-level netlist using the target TSMC standard-cell libraries.
+
+The synthesis flow included RTL elaboration, design linking and consistency checks, constraint application, logic optimization, technology mapping, and generation of the synthesized netlist and implementation files.
+
+### Synthesis Configuration
+
+- **Synthesis Tool:** Synopsys Design Compiler
+- **Top Module:** `SYS_TOP`
+- **Target Technology:** TSMC 130 nm standard-cell library
+- **Synthesis Script:** [`syn_script.tcl`](Syn/syn_script.tcl)
+- **Timing Constraints:** Defined in [`cons.tcl`](Syn/cons.tcl)
+- **Clock Domains:** `REF_CLK`, `UART_CLK`, and their generated clocks
+- **Timing Analysis:** Setup and hold timing reports generated under the specified operating conditions
+
+### Synthesis Results
+
+| Metric | Result |
+|---|---:|
+| Total cell instances | 1,910 |
+| Combinational cells | 1,491 |
+| Sequential cells | 381 |
+| Total cell area | 21,999.58 |
+| Reported setup-path slack | 4.23 ns |
+| Reported hold-path slack | 0.33 ns |
+| Constraint violations | no violated constraints |
+
+
+### Synthesis Reports
+
+The synthesis reports are available in the [`Syn`](Syn/) directory.
+
+The reports include:
+
+- **Area Report (`area.rpt`):** Cell-count statistics and hierarchical area distribution.
+- **Power Report (`power.rpt`):** Estimated switching, internal, leakage, and total power.
+- **Setup Timing Report (`setup.rpt`):** Maximum-delay timing paths.
+- **Hold Timing Report (`hold.rpt`):** Minimum-delay timing paths.
+- **Clock Report (`clocks.rpt`):** Clock periods, generated clocks, and clock attributes.
+- **Constraint Report (`constraints.rpt`):** Reported timing-constraint violations.
+
+Additional generated files include the synthesized gate-level netlist, Design Compiler database, SDF, and exported SDC constraints.
