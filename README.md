@@ -373,3 +373,41 @@ The DFT flow generates the following files:
 - `sdc/SYS_TOP_DFT.sdc` — Exported timing constraints.
 
 The main script is `dft_script.tcl`, and the execution log is available in `log/dft.log`.
+
+## Formal Equivalence Verification — Post-DFT
+
+Formal equivalence checking was performed using **Synopsys Formality** to compare the `SYS_TOP_DFT` RTL reference design against the exported gate-level implementation after DFT a
+
+The verification setup loads the TSMC 130 nm standard-cell libraries and the DFT guidance file (`SYS_TOP_DFT.svf`). To focus on functional equivalence, `test_mode` and `SE` are constrained to logic 0, while the scan input (`SI`) and scan output (`SO`) ports are excluded from compare-point verification.
+
+### Formality Results
+
+| Metric | Result |
+|---|---:|
+| Reference Design | `SYS_TOP_DFT` RTL |
+| Implementation Design | Exported `SYS_TOP_DFT.v` |
+| Passing Compare Points | 364 |
+| Failing Compare Points | 0 |
+| Aborted Compare Points | 0 |
+| Unverified Compare Points | 0 |
+| Formality Version | L-2016.03-SP1 |
+| Verification Date | October 9, 2026 |
+
+### Verification Outcome
+
+Formality reported **364 passing compare points**, with no failing, aborted, or unverified points. The matched points include sequential elements, the clock-gating latch, and top-level output ports.
+
+These results demonstrate functional equivalence for the configured comparison conditions. Since `test_mode` and `SE` are held low and `SI`/`SO` are excluded, this result does not independently verify scan-shift operation or manufacturing-test patterns.
+
+### Generated Reports
+
+- `reports/passing_points.rpt` — Successfully matched and verified compare points.
+- `reports/failing_points.rpt` — Compare points that failed equivalence checking.
+- `reports/aborted_points.rpt` — Compare points for which verification was aborted.
+- `reports/unverified_points.rpt` — Compare points that were not verified.
+- `logs/pnr_fm_log.log` — Formality execution log.
+- `pnr_fm_script.tcl` — Formality setup and verification script.
+
+**Result:** Functional equivalence passed under the configured Formality constraints, with 364 passing compare points and zero reported failures.
+
+
