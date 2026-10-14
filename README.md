@@ -668,3 +668,14 @@ The register file and asynchronous FIFO were the largest reported contributors t
 - `pt/not_annotated.rpt` — Nets without directly annotated switching activity.
 
 **Conclusion:** PrimeTime PX completed the time-based power analysis and generated overall and hierarchical power reports. The reported total power was 449.8 µW for the analyzed window. VCD time-unit consistency, unannotated nets, and timing-related warnings should be reviewed before treating these values as final power sign-off results.
+
+### Tools Used
+
+| **Work** | **Tool** |
+|---|---|
+| Formal Verification / GLS | QuestaSim |
+| Lint and CDC | Synopsys SpyGlass |
+| Synthesis and Scan Insertion | Synopsys Design Compiler / DFT Flow |
+| Equivalence Checking | Synopsys Formality |
+| Placement, CTS, and Routing | Cadence Encounter / NanoRoute |
+| Time-Based Power Estimation | Synopsys PrimeTime PX |
