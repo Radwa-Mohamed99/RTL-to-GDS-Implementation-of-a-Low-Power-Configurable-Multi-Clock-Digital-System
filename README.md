@@ -256,6 +256,8 @@ The synthesis flow included RTL elaboration, design linking and consistency chec
 | Reported hold-path slack | 0.33 ns |
 | Constraint violations | no violated constraints |
 
+![SYS_TOP Schematic](SYS_TOP_schematic.png)
+
 
 ### Synthesis Reports
 
