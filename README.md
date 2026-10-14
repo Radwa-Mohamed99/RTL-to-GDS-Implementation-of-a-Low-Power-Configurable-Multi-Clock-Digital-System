@@ -678,4 +678,4 @@ The register file and asynchronous FIFO were the largest reported contributors t
 | Synthesis and Scan Insertion | Synopsys Design Compiler / DFT Flow |
 | Equivalence Checking | Synopsys Formality |
 | Placement, CTS, and Routing | Cadence Encounter / NanoRoute |
-| Time-Based Power Estimation | Synopsys PrimeTime PX |
+| Time-Based Power Estimation | Synopsys PrimeTime |
