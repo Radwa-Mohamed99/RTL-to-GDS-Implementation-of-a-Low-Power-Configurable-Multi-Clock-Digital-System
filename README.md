@@ -83,3 +83,32 @@ The Register File address space is divided into configuration/operand registers 
 | `0x4` – `0x15` | General-purpose Register File read/write operations |
 
 The testbench should verify the supported commands, configuration sequence, data processing, and result transmission.
+
+## Clock Domain Crossing (CDC) and Synchronization
+
+The system includes dedicated synchronization modules and an asynchronous FIFO to support reliable communication between different clock domains.
+
+### 1. Data Synchronizer (`DATA_SYNC`)
+- Synchronizes signals between clock domains according to the implemented synchronization scheme.
+- Helps reduce the risk of metastability during clock domain crossings.
+- Provides synchronized outputs in the destination clock domain.
+
+### 2. Reset Synchronizer (`RST_SYNC`)
+- Supports asynchronous reset assertion and synchronous reset deassertion.
+- Ensures reset release is synchronized with the destination clock.
+- Improves reset reliability across sequential logic.
+
+### 3. Asynchronous FIFO (`FIFO`)
+- Provides data buffering between independent clock domains.
+- Uses separate write and read clock domains.
+- Supports data transfer between the producer and consumer.
+- Uses CDC techniques to synchronize FIFO status information between clock domains.
+
+### 4. Flip-Flop Synchronizer (`DF_SYNC`)
+- Uses configurable flip-flop stages and data width to synchronize signals.
+- Helps reduce the risk of metastability when signals cross into a destination clock domain.
+
+### CDC Verification
+- Clock domain crossings are analyzed using SpyGlass CDC.
+- The design is checked for potential synchronization issues and unsafe crossings between clock domains.
+
