@@ -1,12 +1,12 @@
 # RTL-to-GDS-Implementation-of-a-Low-Power-Configurable-Multi-Clock-Digital-System
 RTL-to-GDS implementation of a low-power configurable multi-clock digital system, including RTL design, verification, synthesis, DFT, and physical design. 
 
-![System Architecture](System.png)
+![Place and Route Results](Result/PnR.jpg)
 
 # Introduction
 
 The **Low-Power Configurable Multi-Clock Digital System** is a digital system that receives commands from a master through the `UART_RX` interface, processes them using the ALU or Register File, and transmits the operation results back to the master through the `UART_TX` interface.
-
+![System Architecture](System.png)
 The system supports configurable operation modes, arithmetic and logical computations, register file access, and communication through a UART-based protocol.
 
 ## Supported Operations
