@@ -264,3 +264,89 @@ The Formality flow generates the following reports:
 - **`unverified_points.rpt`:** Lists compare points that were not verified.
 
 The main verification script is `syn_fm_script.tcl`, and the execution log is saved as `logs/syn_fm_log.log`.
+
+## Design for Test (DFT)
+
+Design for Test (DFT) was implemented using **Synopsys Design Compiler** to introduce scan-based test structures into the `SYS_TOP` design, improving its controllability and observability for manufacturing test.
+
+The DFT flow includes scan configuration, test-signal definition, test-protocol generation, pre-DFT design-rule checking, scan insertion, incremental optimization, and post-insertion DFT checks.
+
+### DFT Configuration
+
+| Parameter | Configuration |
+|---|---|
+| Top Module | `SYS_TOP_DFT` |
+| EDA Tool | Synopsys Design Compiler |
+| Target Technology | TSMC 130 nm standard-cell library |
+| Scan Style | Multiplexed flip-flop |
+| Clock Mixing | `no_mix` |
+| Maximum Scan Chain Length | 100 |
+| Scan Clock | `scan_clk` |
+| Scan Enable | `SE` |
+| Scan Data Input | `SI` |
+| Scan Data Output | `SO` |
+| Test Mode | `test_mode` |
+| Scan Clock Period | 100 ns (10 MHz) |
+
+### DFT Implementation Flow
+
+1. **Design Setup:** Read the RTL source files, link the target libraries, and check design consistency.
+2. **Scan Configuration:** Configure the scan architecture using multiplexed scan flip-flops, with clock mixing disabled and a maximum chain length of 100.
+3. **Test Protocol Generation:** Define scan timing and test signals, then create the test protocol.
+4. **Pre-DFT DRC:** Run design-for-test rule checks before scan insertion.
+5. **Scan Insertion:** Insert scan structures using `insert_dft`.
+6. **Post-DFT Optimization:** Run incremental scan-aware optimization using `compile -scan -incremental`.
+7. **Post-DFT DRC:** Recheck the design and request a coverage estimate.
+8. **Output Generation:** Export the gate-level Verilog netlist, SDF, SDC, and implementation reports.
+
+### Post-DFT Synthesis Results
+
+The following metrics were obtained from the synthesis reports for `SYS_TOP_DFT`.
+
+| Metric | Reported Result |
+|---|---:|
+| Total cell instances | 1,952 |
+| Combinational cells | 1,526 |
+| Sequential cells | 381 |
+| Buffer / inverter cells | 284 |
+| Total cell area | 24,758.95 |
+| Reported setup slack | 18.52 ns |
+| Reported hold slack | 0.42 ns |
+
+*Note: Cell area is reported in the target library's area units. Timing values represent the reported paths under the specified operating conditions and ideal-clock assumptions. These are pre-layout synthesis results; placement, clock-tree synthesis, routing, and parasitic extraction may change the final area and timing.*
+
+### Clock Configuration
+
+The DFT timing constraints cover the functional clocks and the dedicated scan clock.
+
+| Clock | Period |
+|---|---:|
+| `REF_CLK` | 20 ns |
+| `ALU_CLK` | 20 ns |
+| `UART_CLK` | 271.297 ns |
+| `RX_CLK` | 271.297 ns |
+| `TX_CLK` | 8,681.50 ns |
+| `SCAN_CLK` | 100 ns |
+
+Functional clock domains are constrained as asynchronous groups, while the scan clock is configured as logically exclusive with the functional clocks.
+
+### Power Estimation
+
+The synthesis power report estimates a total power of **0.132 mW** under the configured operating conditions.
+
+However, the report contains warnings about unannotated primary inputs and sequential-cell outputs. Therefore, this value should be treated as a preliminary estimate rather than an accurate activity-based power measurement.
+
+### DFT Reports and Generated Files
+
+The DFT flow is configured to produce the following reports and outputs:
+
+- `reports/area.rpt` — Cell statistics and hierarchical area distribution.
+- `reports/power.rpt` — Estimated switching, internal, leakage, and total power.
+- `reports/setup.rpt` — Maximum-delay timing paths.
+- `reports/hold.rpt` — Minimum-delay timing paths.
+- `reports/clocks.rpt` — Clock periods and generated-clock relationships.
+- `netlists/SYS_TOP_DFT.v` — Synthesized gate-level Verilog netlist.
+- `sdf/SYS_TOP_DFT.sdf` — Standard Delay Format output.
+- `sdc/SYS_TOP_DFT.sdc` — Exported timing constraints.
+
+The main DFT script is `dft_script.tcl`, and the execution log is stored in `log/dft.log`.
