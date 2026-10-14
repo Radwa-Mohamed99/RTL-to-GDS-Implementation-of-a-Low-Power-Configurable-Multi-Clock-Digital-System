@@ -211,7 +211,7 @@ The synthesis flow included RTL elaboration, design linking and consistency chec
 
 ### Synthesis Reports
 
-The synthesis reports are available in the [`Syn`](Syn/) directory.
+The synthesis reports are available in the [`Syn`](Syn/reports) directory.
 
 The reports include:
 
