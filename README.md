@@ -374,30 +374,24 @@ The DFT flow generates the following files:
 
 The main script is `dft_script.tcl`, and the execution log is available in `log/dft.log`.
 
-## Formal Equivalence Verification — Post-DFT
+### Formal Equivalence Verification — Post-DFT
 
-Formal equivalence checking was performed using **Synopsys Formality** to compare the `SYS_TOP_DFT` RTL reference design against the exported gate-level implementation after DFT a
+Formal equivalence checking was performed using Synopsys Formality to compare the `SYS_TOP_DFT` RTL reference design against the gate-level netlist generated after DFT insertion.
 
-The verification setup loads the TSMC 130 nm standard-cell libraries and the DFT guidance file (`SYS_TOP_DFT.svf`). To focus on functional equivalence, `test_mode` and `SE` are constrained to logic 0, while the scan input (`SI`) and scan output (`SO`) ports are excluded from compare-point verification.
+**Comparison configuration:**
+- `test_mode = 0`
+- `SE = 0` (functional mode)
+- Scan-in (`SI`) and scan-out (`SO`) ports excluded from compare-point verification.
 
-### Formality Results
+**Results:**
 
 | Metric | Result |
 |---|---:|
-| Reference Design | `SYS_TOP_DFT` RTL |
-| Implementation Design | Exported `SYS_TOP_DFT.v` |
-| Passing Compare Points | 364 |
-| Failing Compare Points | 0 |
-| Aborted Compare Points | 0 |
-| Unverified Compare Points | 0 |
-| Formality Version | L-2016.03-SP1 |
-| Verification Date | October 9, 2026 |
-
-### Verification Outcome
-
-Formality reported **364 passing compare points**, with no failing, aborted, or unverified points. The matched points include sequential elements, the clock-gating latch, and top-level output ports.
-
-These results demonstrate functional equivalence for the configured comparison conditions. Since `test_mode` and `SE` are held low and `SI`/`SO` are excluded, this result does not independently verify scan-shift operation or manufacturing-test patterns.
+| Passing compare points | 364 |
+| Failing compare points | 0 |
+| Aborted compare points | 0 |
+| Unverified compare points | 0 |
+| Tool | Synopsys Formality L-2016.03-SP1 |
 
 ### Generated Reports
 
@@ -408,6 +402,219 @@ These results demonstrate functional equivalence for the configured comparison c
 - `logs/pnr_fm_log.log` — Formality execution log.
 - `pnr_fm_script.tcl` — Formality setup and verification script.
 
-**Result:** Functional equivalence passed under the configured Formality constraints, with 364 passing compare points and zero reported failures.
+**Conclusion:** All 364 reported compare points passed under the configured functional-mode comparison conditions.
 
+## Physical Design: Place & Route (Post-PnR)
 
+### Overview
+
+The `SYS_TOP_DFT` design was taken through the physical implementation flow using Cadence Innovus and a TSMC 130 nm standard-cell technology. The flow covered floorplanning, power planning, standard-cell placement, clock tree synthesis (CTS), post-CTS hold fixing, global and detailed routing, physical verification, and design data export.
+
+### Implementation Flow
+
+1. **Floorplanning:** Loaded the floorplan and established the core and die configuration.
+2. **Power Planning:** Created the power distribution network using power rings, power stripes, and standard-cell power connections.
+3. **Placement:** Placed standard cells and performed pre-CTS optimization.
+4. **Tie-Cell Insertion:** Inserted 3 `TIELOM` cells and 6 `TIEHIM` cells.
+5. **Clock Tree Synthesis (CTS):** Built clock distribution trees for `UART_CLK`, `REF_CLK`, and `scan_clk`.
+6. **Post-CTS Optimization:** Fixed hold timing violations by inserting delay cells.
+7. **Global and Detailed Routing:** Routed signal interconnects and performed via and wire optimization.
+8. **Filler Insertion:** Inserted 1,579 filler cells.
+9. **Post-Route Verification and Export:** Generated physical verification reports and exported the gate-level netlist, parasitic data, SDF, power report, and GDSII layout.
+
+### Timing Closure Results
+
+| Implementation Stage | Setup WNS | Hold WNS | Placement Density |
+|---|---:|---:|---:|
+| Pre-CTS | +2.633 ns | — | 73.7% |
+| Post-CTS, Before Hold Fixing | +2.619 ns | -0.554 ns | 77.8% |
+| Post-CTS, After Hold Fixing | +2.619 ns | +0.072 ns | 78.1% |
+| Post-Route | +2.589 ns | +0.077 ns | 78.1% |
+
+**Result:** The reported post-route setup and hold WNS values are both positive, indicating that the reported timing checks meet their constraints. The final reported setup WNS is **+2.589 ns**, and hold WNS is **+0.077 ns**.
+
+### Hold-Time Optimization
+
+After CTS, the design exhibited hold-time violations with a worst negative slack of **-0.554 ns across 132 violating paths**.
+
+Hold optimization inserted 10 `DLY4X1M` delay cells across four nets. The reported total negative slack improved from approximately **-29.2 ns to 0 ns**, and the post-route hold WNS became positive at **+0.077 ns**.
+
+### Clock Tree Synthesis Results
+
+| Clock | Number of Sinks | Reported Post-Route Skew | Frequency |
+|---|---:|---:|---:|
+| `REF_CLK` | 280 | 65.7 ps | 50 MHz |
+| `UART_CLK` | 78 | 102 ps | 3.6864 MHz |
+| `scan_clk` | 358 | 143 ps | 10 MHz |
+
+The reported scan-clock skew is below the stated 200 ps target.
+
+The functional clock configuration also includes:
+
+- `ALU_CLK`: 50 MHz
+- `RX_CLK`: 3.6864 MHz
+- `TX_CLK`: approximately 115.2 kHz
+
+### Physical Verification Results
+
+| Check | Reported Result |
+|---|---|
+| DRC / Verify Geometry | 0 violations |
+| Connectivity | 0 violations |
+| Process Antenna | 0 violations |
+| Design Rule Violations (capacitance, transition, fanout) | 0 final reported violations |
+| Post-Route Setup Timing | WNS = +2.589 ns |
+| Post-Route Hold Timing | WNS = +0.077 ns |
+
+These results reflect the reported implementation and verification checks. They do not, by themselves, establish complete foundry sign-off or tape-out readiness.
+
+### Implementation Statistics
+
+- **Top Module:** `SYS_TOP_DFT`
+- **Technology:** TSMC 130 nm
+- **Standard-Cell Count:** Approximately 1,831–1,836, as reported during implementation
+- **Tie Cells:** 3 `TIELOM` and 6 `TIEHIM`
+- **Hold-Fixing Cells:** 10 `DLY4X1M`
+- **Filler Cells:** 1,579
+
+The reported cell count may vary by implementation stage and by whether filler, tie, and other physical-only cells are included.
+
+### Generated Outputs
+
+| File | Purpose |
+|---|---|
+| `SYS_TOP_DFT.v` | Post-PnR gate-level netlist |
+| `SYS_TOP_DFT_pg.v` | Gate-level netlist with power and ground pins |
+| `SYS_TOP_DFT.spf` | Extracted parasitic information in SPF format |
+| `SYS_TOP_DFT.sdf` | Standard Delay Format timing annotation file |
+| `power.rpt` | Power analysis report |
+| `SYS_TOP_DFT.gds` | GDSII layout export |
+
+### Remaining Sign-Off Considerations
+
+Although the reported post-route timing and physical checks are clean, several issues require further review before treating the layout as sign-off ready:
+
+1. **RC Extraction Configuration:** `SOCEXT-5027` reported that no QX technology file was defined for the RC corner. Complete the extraction setup and verify timing with the intended parasitic corner.
+2. **GDSII Layer Mapping:** The `streamOut` log reported a layer-map parsing warning. The generated GDS contained 3,506 instances, but nets, pins, and text were not reported as exported. Validate the layer map and inspect the resulting GDS in a layout viewer before relying on the file.
+3. **Scan-Chain Configuration:** Warnings including `SOCSP-9025` indicated that no scan chain was specified or traced during part of the flow. Verify the scan-chain setup and confirm that the intended scan connectivity is preserved.
+4. **Clock Transition:** Clock-buffer transition values reportedly reached approximately 190 ps against a stated 50 ps target. Review the applicable constraints and final transition reports, even though no final DRV violations were reported.
+5. **Power Estimation:** Missing internal and leakage power data for tie cells may affect the reported power estimate.
+6. **Final Run Completion:** The available log ends around a `saveDesign` operation with a `SOCSYT-3036` warning. Confirm that the run completed successfully and that all output files are valid.
+
+**Conclusion:** The reported Post-PnR results show positive setup and hold slack, zero reported final geometry and connectivity violations, and completed routing. However, RC extraction configuration, scan-chain tracing, and GDSII export validation remain important checks before claiming full physical sign-off.
+
+### Formal Equivalence Verification — Post-PnR
+
+Formal equivalence checking was performed using Synopsys Formality to compare the `SYS_TOP_DFT` RTL reference design against the gate-level implementation netlist exported after the Place-and-Route flow.
+
+**Comparison configuration:**
+- `test_mode = 0`
+- `SE = 0` (functional mode)
+- Scan-in (`SI`) and scan-out (`SO`) ports excluded from compare-point verification.
+
+**Results:**
+
+| Metric | Result |
+|---|---:|
+| Passing compare points | 364 |
+| Failing compare points | 0 |
+| Aborted compare points | 0 |
+| Unverified compare points | 0 |
+| Tool | Synopsys Formality L-2016.03-SP1 |
+
+### Generated Reports
+
+- `reports/passing_points.rpt` — Successfully matched and verified compare points.
+- `reports/failing_points.rpt` — Compare points that failed equivalence checking.
+- `reports/aborted_points.rpt` — Compare points for which verification was aborted.
+- `reports/unverified_points.rpt` — Compare points that were not verified.
+- `logs/pnr_fm_log.log` — Formality execution log.
+- `pnr_fm_script.tcl` — Formality setup and verification script.
+
+**Conclusion:** All 364 reported compare points passed, with no failing, aborted, or unverified points under the configured functional-mode comparison conditions.
+
+### Gate-Level Simulation (GLS) — Post-PnR
+
+Gate-Level Simulation was performed using Questa to validate the functional behavior of the `SYS_TOP_DFT` gate-level implementation netlist with SDF timing annotation.
+
+**Simulation configuration:**
+- **Gate-level netlist:** `SYS_TOP_DFT.v`
+- **Standard-cell library model:** `tsmc13_m.v`
+- **Timing annotation file:** `SYS_TOP_DFT.sdf`
+- **SDF annotation mode:** Maximum delays (`-sdfmax`)
+- **Testbench:** `SYS_DFT_TB_FUNC`
+- **Operating mode:** Functional mode (`test_mode = 0`, `SE = 0`)
+- **Simulator:** Questa/ModelSim
+
+**Results:**
+
+| Metric | Result |
+|---|---:|
+| Total test cases | 27 |
+| Passed test cases | 27 |
+| Failed test cases | 0 |
+| Simulator errors | 0 |
+| Simulator warnings | 34 |
+
+### Verification Coverage
+
+- Register-file read and write operations.
+- UART configuration and divider-register checks.
+- ALU operations, including arithmetic, logical, comparison, and shift functions.
+- Parity-error detection.
+- Framing-error detection.
+- Functional recovery following injected UART errors.
+
+### Simulation Files
+
+- `SYS_DFT_TB_FUNC.v` — Functional gate-level testbench.
+- `run_GLS.do` — Questa/ModelSim simulation and SDF annotation setup.
+- `SYS_TOP_DFT.v` — Gate-level implementation netlist.
+- `SYS_TOP_DFT.sdf` — Standard Delay Format timing data.
+- `tsmc13_m.v` — Standard-cell simulation models.
+- `SYS_DFT_TB_FUNC.vcd` — Simulation waveform dump, if retained.
+
+**Conclusion:** All 27 reported test cases passed with zero simulator errors. The simulation was run with maximum-delay SDF annotation. The 34 warnings should be reviewed to confirm successful timing annotation and determine whether any warnings affect the validity of the simulation results.
+
+### Power Analysis — Post-PnR
+
+Time-based power analysis was performed using Synopsys PrimeTime PX on the `SYS_TOP_DFT` gate-level implementation netlist. Switching activity was imported from the functional GLS waveform, and SDF timing data was loaded for timing-aware power estimation.
+
+**Analysis configuration:**
+- **Tool:** Synopsys PrimeTime O-2018.06-SP1
+- **Design:** `SYS_TOP_DFT`
+- **Power analysis mode:** Time-based
+- **Operating condition:** Typical corner, 1.2 V, 25°C
+- **Timing data:** `SYS_TOP_DFT_rem.sdf`
+- **Switching activity:** `SYS_DFT_TB_FUNC.vcd`
+- **Activity annotation:** 2047 of 2083 nets (98.27%)
+- **Fully annotated leaf cells:** 1918 of 1918
+- **Analysis window:** 0 to 5.6 × 10⁶ ns, as reported by PrimeTime PX
+
+**Power Results:**
+
+| Metric | Result |
+|---|---:|
+| Total power | 449.8 µW |
+| Cell internal power | 325.6 µW |
+| Net switching power | 116.9 µW |
+| Cell leakage power | 7.331 µW |
+| Peak power | 0.1903 W |
+
+### Power Report Breakdown
+
+The register file and asynchronous FIFO were the largest reported contributors to total power under the analyzed activity conditions.
+
+- `REG_FILE_INST`: 26.3%
+- `ASYNC_FIFO_INST`: 15.3%
+- `SYS_CTRL_INST`: 6.2%
+- `DATA_SYNC_INST`: 2.3%
+- `UART_INST`: 0.8%
+
+### Generated Reports
+
+- `pt/SYS_TOP_DFT.rpt` — Overall time-based power report.
+- `pt/SYS_TOP_DFT_hier.rpt` — Hierarchical power breakdown.
+- `pt/not_annotated.rpt` — Nets without directly annotated switching activity.
+
+**Conclusion:** PrimeTime PX completed the time-based power analysis and generated overall and hierarchical power reports. The reported total power was 449.8 µW for the analyzed window. VCD time-unit consistency, unannotated nets, and timing-related warnings should be reviewed before treating these values as final power sign-off results.
