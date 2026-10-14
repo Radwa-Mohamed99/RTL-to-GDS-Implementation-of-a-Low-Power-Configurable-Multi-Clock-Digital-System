@@ -88,31 +88,68 @@ The testbench should verify the supported commands, configuration sequence, data
 
 ## Clock Domain Crossing (CDC) and Synchronization
 
-The system includes dedicated synchronization modules and an asynchronous FIFO to support reliable communication between different clock domains.
+The design includes dedicated synchronization modules and an asynchronous FIFO to support reliable communication across multiple clock domains. CDC and RDC checks were performed using **Synopsys SpyGlass** to identify potential clock-domain crossing, reset-domain crossing, and structural issues.
 
-### 1. Data Synchronizer (`DATA_SYNC`)
-- Synchronizes signals between clock domains according to the implemented synchronization scheme.
+### 1. Synchronization Modules
+
+#### Data Synchronizer (`DATA_SYNC`)
+- Synchronizes signals crossing into a destination clock domain according to the implemented synchronization scheme.
 - Helps reduce the risk of metastability during clock domain crossings.
-- Provides synchronized outputs in the destination clock domain.
+- Provides synchronized signals to downstream logic.
 
-### 2. Reset Synchronizer (`RST_SYNC`)
+#### Reset Synchronizer (`RST_SYNC`)
 - Supports asynchronous reset assertion and synchronous reset deassertion.
-- Ensures reset release is synchronized with the destination clock.
-- Improves reset reliability across sequential logic.
+- Synchronizes reset release with the destination clock domain.
+- Helps reduce reset-release timing risks.
 
-### 3. Asynchronous FIFO (`FIFO`)
-- Provides data buffering between independent clock domains.
-- Uses separate write and read clock domains.
-- Supports data transfer between the producer and consumer.
+#### Asynchronous FIFO (`FIFO`)
+- Transfers data between independent write and read clock domains.
+- Provides buffering between producer and consumer logic.
 - Uses CDC techniques to synchronize FIFO status information between clock domains.
 
-### 4. Flip-Flop Synchronizer (`DF_SYNC`)
-- Uses configurable flip-flop stages and data width to synchronize signals.
-- Helps reduce the risk of metastability when signals cross into a destination clock domain.
+#### Flip-Flop Synchronizer (`DF_SYNC`)
+- Supports configurable synchronization stages and data width.
+- Uses cascaded flip-flops to reduce the probability of metastability propagating into downstream logic.
 
-### CDC Verification
-- Clock domain crossings are analyzed using SpyGlass CDC.
-- The design is checked for potential synchronization issues and unsafe crossings between clock domains.
+### 2. SpyGlass CDC/RDC Verification
+
+SpyGlass was used to analyze clock-domain crossings, synchronization structures, and reset-domain crossing behavior.
+
+The verification flow includes:
+- CDC structural analysis.
+- Identification of potential unsafe crossings and convergence issues.
+- Review of generated-clock usage.
+- RDC structural analysis.
+- Review of inferred latches associated with intentional clock-gating structures.
+
+### 3. Waivers and Justifications
+
+Selected SpyGlass findings were waived where the behavior was intentional or required design-specific interpretation. Waivers were documented with comments to clarify their rationale.
+
+| Rule | Waiver rationale |
+|---|---|
+| `InferLatch` | Intentional latch inference associated with the clock-gating implementation (`Clock_Gate`). |
+| `STARC05-1.4.3.4` | `TX_CLK_DIV_INST.div_clk` is an intentionally generated clock derived from the UART clock and used by the TX domain. |
+| `Ac_conv01` | Convergence-related finding requiring design-specific review. |
+| `Ac_conv02` | Convergence-related finding requiring design-specific review. |
+| `Ac_clockperiod03` | Clock-period-related finding requiring review against the intended clock constraints. |
+
+**Note:** Waivers document accepted or reviewed findings; they do not, by themselves, prove that a crossing is safe. Each waiver should be checked against the RTL, clock relationships, constraints, and SpyGlass reports.
+
+### 4. Verification Evidence
+
+The following screenshots document the CDC, RDC, and RTL lint analysis results:
+
+- **CDC Verification:** `Result/cdc_verify.png`
+- **CDC Structural Verification:** `Result/cdc_verify_struct.png`
+- **CDC Abstract Results:** `Result/cdc_abstruct.png`
+- **CDC Setup Checks:** `Result/cdc_setup_check.png`
+- **RDC Structural Verification:** `Result/rdc_verify_struct.png`
+- **RTL Lint Results:** `Result/lint_rtl.png`
+
+### Conclusion
+
+The design incorporates synchronization modules and an asynchronous FIFO to support communication across multiple clock domains. SpyGlass CDC/RDC and lint analyses were performed, and selected findings were documented through explicit waivers. Final acceptance of the CDC/RDC results depends on reviewing the remaining findings and confirming that every waiver is justified by the design intent and verification evidence.
 
 ## Functional Verification
 
